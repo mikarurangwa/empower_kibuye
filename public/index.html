@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empower Kibuye - Digital Aid Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            color: #ffd700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            margin-left: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: #ffd700;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #2c5530;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #2c5530;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 85, 48, 0.8), rgba(74, 124, 89, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%234a7c59" width="1200" height="800"/><circle fill="%235d9e6a" cx="200" cy="200" r="100"/><circle fill="%236fb577" cx="800" cy="300" r="80"/><circle fill="%2382cc84" cx="1000" cy="600" r="120"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 0 100px;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 30px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 2px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Mission Section */
+        .mission {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mission-card i {
+            font-size: 3rem;
+            color: #4a7c59;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-card h3 {
+            font-size: 1.5rem;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .problem-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #4a7c59, #2c5530);
+            color: white;
+            text-align: center;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .impact-item {
+            padding: 2rem;
+        }
+
+        .impact-item i {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .impact-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a3a1e;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            opacity: 0.7;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4a7c59;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 120px 0 50px;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .donation-form {
+            max-width: 500px;
+        }
+
+        .donation-amount {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .amount-btn {
+            padding: 0.8rem;
+            border: 2px solid #4a7c59;
+            background: white;
+            color: #4a7c59;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .amount-btn.active, .amount-btn:hover {
+            background: #4a7c59;
+            color: white;
+        }
+
+        /* Payment Details Styles */
+        .payment-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+
+        .payment-details.hidden {
+            display: none;
+        }
+
+        .payment-details.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card input formatting */
+        #cardNumber {
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+
+        #cardCvc {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Payment status styles */
+        #paymentStatus {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #paymentStatus.processing {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        #paymentStatus.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        #paymentStatus.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4a7c59;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Button states */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn.processing {
+            background: #6c757d;
+            pointer-events: none;
+        }
+
+        /* Admin Styles */
+        .admin-section {
+            display: none;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background: #2c5530;
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-amount {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Navigation Improvements */
+        .nav-menu.logged-in {
+            display: flex !important;
+        }
+
+        .main-sections {
+            display: block;
+        }
+
+        .main-sections.hidden-sections {
+            display: none;
+        }
+
+        /* Export and Filter Styles */
+        .export-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-export {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-export:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .filter-summary {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Back to sections button */
+        .back-to-sections {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #4a7c59;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: none;
+        }
+
+        .back-to-sections:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .back-to-sections.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                Empower Kibuye
+            </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <li><a href="#" id="homeLink">Home</a></li>
+                <li><a href="#" id="aboutLink">About</a></li>
+                <li><a href="#" id="missionLink">Mission</a></li>
+                <li><a href="#" id="problemLink">Problem</a></li>
+                <li><a href="#" id="impactLink">Impact</a></li>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-secondary" id="loginBtn">Login</a>
+                <a href="#" class="btn btn-primary" id="signupBtn">Sign Up</a>
+                <a href="#" class="btn btn-secondary hidden" id="dashboardBtn">Dashboard</a>
+                <a href="#" class="btn btn-secondary hidden" id="logoutBtn">Logout</a>
+            </div>
+
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" class="mobile-home-link">Home</a>
+            <a href="#" class="mobile-about-link">About</a>
+            <a href="#" class="mobile-mission-link">Mission</a>
+            <a href="#" class="mobile-problem-link">Problem</a>
+            <a href="#" class="mobile-impact-link">Impact</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <div class="main-sections" id="mainSections">
+            <!-- Hero Section -->
+            <section class="hero" id="home">
+                <div class="hero-content">
+                    <h1>Empower Kibuye</h1>
+                    <p>A Digital Aid Platform transforming lives through health, education, and skills development in rural Rwanda</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary btn-large" id="donateNowBtn">Donate Now</a>
+                        <a href="#about" class="btn btn-secondary btn-large">Learn More</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about" id="about">
+                <div class="container">
+                    <h2 class="section-title">About Our Mission</h2>
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <p>Empower Kibuye is dedicated to breaking the cycle of poverty in rural Rwanda by providing essential support in three critical areas: healthcare, education, and skills development.</p>
+                            
+                            <p>Our mission is to establish a sustainable digital platform that connects generous donors with vulnerable families and children in Kibuye, ensuring every contribution creates lasting impact and transforms lives.</p>
+                            
+                            <p>Through transparent fund management and direct community engagement, we empower individuals to build better futures while providing donors with clear visibility into how their contributions make a difference.</p>
+                        </div>
+                        <div class="about-image">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%234a7c59' width='400' height='300' rx='15'/><circle fill='%236fb577' cx='100' cy='100' r='30'/><circle fill='%2382cc84' cx='300' cy='80' r='25'/><circle fill='%2395d98b' cx='320' cy='200' r='35'/><rect fill='%23fff' x='50' y='180' width='300' height='80' rx='10'/><text x='200' y='215' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='14' font-weight='bold'>Community Support</text><text x='200' y='235' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='12'>Building Better Futures</text></svg>" alt="Community Support" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="mission" id="mission">
+                <div class="container">
+                    <h2 class="section-title">What Your Donation Serves</h2>
+                    <div class="mission-grid">
+                        <div class="mission-card">
+                            <i class="fas fa-heartbeat"></i>
+                            <h3>Health Insurance</h3>
+                            <p>Providing essential health coverage to vulnerable families, ensuring access to medical care when they need it most. Your donation helps cover insurance premiums and medical expenses.</p>
+                        </div>
+                        <div class="mission-card">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Education Support</h3>
+                            <p>Covering school fees for children who would otherwise be unable to attend school due to financial constraints. Education is the foundation for breaking the cycle of poverty.</p>
+                        </div>
+                        <div class="mission-card">
+                            <i class="fas fa-tools"></i>
+                            <h3>Skills Development</h3>
+                            <p>Offering vocational training and skill-building programs that equip adults with marketable skills, creating pathways to sustainable employment and economic independence.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Problem Statement Section -->
+            <section class="problem" id="problem">
+                <div class="container">
+                    <h2 class="section-title">The Challenge We're Addressing</h2>
+                    <div class="problem-content">
+                        <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #555; line-height: 1.8;">
+                            In rural communities like Kibuye, Rwanda, families face significant barriers to accessing basic healthcare and education. Limited financial resources mean that many children cannot attend school, and families go without essential health coverage.
+                        </p>
+                        
+                        <p style="font-size: 1.1rem; color: #666; line-height: 1.7;">
+                            <strong>The Reality:</strong> According to WHO reports, a significant percentage of the population lives below the poverty line, making health insurance and school fees unaffordable. Adults lack opportunities for skills development that could improve their employment prospects, creating a perpetual cycle of poverty that affects entire communities.
+                        </p>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-card">
+                            <span class="stat-number">60%</span>
+                            <span class="stat-label">Population below poverty line</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">40%</span>
+                            <span class="stat-label">Children without health insurance</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">25%</span>
+                            <span class="stat-label">School dropout rate due to fees</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">15%</span>
+                            <span class="stat-label">Access to vocational training</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Impact Section -->
+            <section class="impact" id="impact">
+                <div class="container">
+                    <h2 class="section-title" style="color: white;">Why Donate to Empower Kibuye?</h2>
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <i class="fas fa-eye"></i>
+                            <h3>Complete Transparency</h3>
+                            <p>Track exactly how your donation is used with our transparent allocation system and regular impact reports.</p>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fas fa-users"></i>
+                            <h3>Direct Impact</h3>
+                            <p>100% of your donation goes directly to beneficiaries - covering health insurance, school fees, and training programs.</p>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Measurable Results</h3>
+                            <p>See the tangible difference your contribution makes through our comprehensive tracking and reporting system.</p>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fas fa-handshake"></i>
+                            <h3>Community Partnership</h3>
+                            <p>We work directly with local community leaders and organizations to ensure sustainable, long-term impact.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 3rem;">
+                        <a href="#" class="btn btn-primary btn-large" id="joinUsBtn">Join Our Mission Today</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="userDashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Welcome to Your Dashboard</h2>
+                <p>Manage your donations and see the impact you're making</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card donation-form">
+                    <h3><i class="fas fa-heart"></i> Make a Donation</h3>
+                    <form id="donationForm">
+                        <div class="form-group">
+                            <label>Donation Purpose</label>
+                            <select id="donationPurpose" required>
+                                <option value="">Select Purpose</option>
+                                <option value="health">Health Insurance</option>
+                                <option value="education">Education Support</option>
+                                <option value="skills">Skills Training</option>
+                                <option value="general">General Fund</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Amount (RWF)</label>
+                            <div class="donation-amount">
+                                <button type="button" class="amount-btn" data-amount="5000">5,000</button>
+                                <button type="button" class="amount-btn" data-amount="10000">10,000</button>
+                                <button type="button" class="amount-btn" data-amount="25000">25,000</button>
+                                <button type="button" class="amount-btn" data-amount="50000">50,000</button>
+                            </div>
+                            <input type="number" id="donationAmount" placeholder="Custom amount" min="1000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Payment Method</label>
+                            <select id="paymentMethod" required>
+                                <option value="">Select Payment Method</option>
+                                <option value="mobile_money">📱 Mobile Money (MoMo)</option>
+                                <option value="credit_card">💳 Credit Card</option>
+                                <option value="bank_transfer">🏦 Bank Transfer</option>
+                            </select>
+                        </div>
+
+                        <!-- Mobile Money Payment Details -->
+                        <div id="momoDetails" class="payment-details hidden">
+                            <div class="form-group">
+                                <label>📱 Mobile Money Phone Number</label>
+                                <input type="tel" id="momoPhone" placeholder="+250 7XX XXX XXX">
+                                <small style="color: #666; font-size: 0.8rem;">Enter your MTN MoMo or Airtel Money number</small>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Payment Details -->
+                        <div id="cardDetails" class="payment-details hidden">
+                            <div class="form-group">
+                                <label>💳 Card Number</label>
+                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>Month</label>
+                                    <select id="cardMonth">
+                                        <option value="">MM</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select id="cardYear">
+                                        <option value="">YYYY</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>CVC</label>
+                                    <input type="text" id="cardCvc" placeholder="123" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Cardholder Name</label>
+                                <input type="text" id="cardName" placeholder="John Doe">
+                            </div>
+                        </div>
+
+                        <!-- Bank Transfer Details -->
+                        <div id="bankDetails" class="payment-details hidden">
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                                <h4 style="color: #2c5530; margin-bottom: 0.5rem;">Bank Transfer Details</h4>
+                                <p><strong>Bank:</strong> Bank of Kigali</p>
+                                <p><strong>Account Name:</strong> Empower Kibuye</p>
+                                <p><strong>Account Number:</strong> 00012345678</p>
+                                <p><strong>Swift Code:</strong> BKRWRWRW</p>
+                                <small style="color: #666;">Please use your email as reference and allow 1-2 business days for confirmation.</small>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full" id="donateButton">
+                            <i class="fas fa-heart"></i> <span id="donateButtonText">Donate Now</span>
+                        </button>
+                        
+                        <div id="paymentStatus" class="hidden"></div>
+                    </form>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-history"></i> Your Donation History</h3>
+                    <div id="donationHistory">
+                        <p>No donations yet. Make your first donation to get started!</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-pie"></i> Your Impact</h3>
+                    <div id="impactSummary">
+                        <div style="text-align: center; color: #999;">
+                            <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>Your impact summary will appear here after your first donation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Sections Button -->
+    <button class="back-to-sections" id="backToSectionsBtn">
+        <i class="fas fa-arrow-left"></i> Back to Main
+    </button>
+
+    <!-- Admin Dashboard -->
+    <section class="dashboard admin-section" id="adminDashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Admin Dashboard</h2>
+                <p>Manage donations, beneficiaries, and allocations</p>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-primary" id="addBeneficiaryBtn">
+                        <i class="fas fa-user-plus"></i> Add Beneficiary
+                    </button>
+                </div>
+            </div>
+
+            <!-- Export Section -->
+            <div class="export-section">
+                <h3><i class="fas fa-file-export"></i> Export Data</h3>
+                
+                <!-- Donations Export -->
+                <div style="margin-bottom: 2rem;">
+                    <h4>📊 Export Donations</h4>
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label>From Date</label>
+                            <input type="date" id="donationFromDate">
+                        </div>
+                        <div class="form-group">
+                            <label>To Date</label>
+                            <input type="date" id="donationToDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Purpose</label>
+                            <select id="donationPurposeFilter">
+                                <option value="">All Purposes</option>
+                                <option value="health">Health Insurance</option>
+                                <option value="education">Education Support</option>
+                                <option value="skills">Skills Training</option>
+                                <option value="general">General Fund</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="donationStatusFilter">
+                                <option value="">All Status</option>
+                                <option value="completed">Completed</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Min Amount (RWF)</label>
+                            <input type="number" id="donationMinAmount" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Amount (RWF)</label>
+                            <input type="number" id="donationMaxAmount" placeholder="No limit">
+                        </div>
+                    </div>
+                    <div class="filter-summary" id="donationFilterSummary">
+                        No filters applied - All donations will be exported
+                    </div>
+                    <div class="export-buttons">
+                        <button class="btn-export" id="exportDonationsBtn">
+                            <i class="fas fa-file-excel"></i> Export Donations to Excel
+                        </button>
+                        <button class="btn btn-secondary" id="clearDonationFiltersBtn">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Beneficiaries Export -->
+                <div>
+                    <h4>👥 Export Beneficiaries</h4>
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label>Support Type</label>
+                            <select id="beneficiarySupportFilter">
+                                <option value="">All Support Types</option>
+                                <option value="health">Health Insurance</option>
+                                <option value="education">Education Support</option>
+                                <option value="skills">Skills Training</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="beneficiaryStatusFilter">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select id="beneficiaryGenderFilter">
+                                <option value="">All Genders</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Min Age</label>
+                            <input type="number" id="beneficiaryMinAge" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Age</label>
+                            <input type="number" id="beneficiaryMaxAge" placeholder="No limit">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="beneficiaryLocationFilter" placeholder="Filter by location">
+                        </div>
+                    </div>
+                    <div class="filter-summary" id="beneficiaryFilterSummary">
+                        No filters applied - All beneficiaries will be exported
+                    </div>
+                    <div class="export-buttons">
+                        <button class="btn-export" id="exportBeneficiariesBtn">
+                            <i class="fas fa-file-excel"></i> Export Beneficiaries to Excel
+                        </button>
+                        <button class="btn btn-secondary" id="clearBeneficiaryFiltersBtn">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users"></i> Recent Donations</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Donor</th>
+                                    <th>Amount</th>
+                                    <th>Purpose</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminDonationsList">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: #999;">No donations yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users-cog"></i> Beneficiaries</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Support Received</th>
+                                </tr>
+                            </thead>
+                            <tbody id="beneficiariesList">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; color: #999;">No beneficiaries registered yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-bar"></i> Fund Allocation</h3>
+                    <div id="fundAllocation">
+                        <div class="form-group">
+                            <label>Available Funds: RWF <span id="availableFunds">0</span></label>
+                        </div>
+                        <form id="allocationForm">
+                            <div class="form-group">
+                                <label>Select Beneficiary</label>
+                                <select id="beneficiarySelect" required>
+                                    <option value="">Select Beneficiary</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Allocation Amount</label>
+                                <input type="number" id="allocationAmount" placeholder="Enter amount" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Support Type</label>
+                                <select id="supportType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="health">Health Insurance</option>
+                                    <option value="education">Education Support</option>
+                                    <option value="skills">Skills Training</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Allocate Funds</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Empower Kibuye</h3>
+                    <p>Transforming lives through health, education, and skills development in rural Rwanda.</p>
+                    <div style="margin-top: 1rem;">
+                        <i class="fas fa-map-marker-alt"></i> Kibuye, Rwanda<br>
+                        <i class="fas fa-envelope"></i> info@empowerkirubuye.org<br>
+                        <i class="fas fa-phone"></i> +250 123 456 789
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#mission">Our Mission</a></p>
+                    <p><a href="#problem">The Problem</a></p>
+                    <p><a href="#impact">Our Impact</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Get Involved</h3>
+                    <p><a href="#" id="footerDonateBtn">Make a Donation</a></p>
+                    <p><a href="#" id="volunteerBtn">Become a Volunteer</a></p>
+                    <p><a href="#" id="partnerBtn">Partner with Us</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div style="font-size: 1.5rem; margin-top: 1rem;">
+                        <a href="#" style="margin-right: 1rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="margin-right: 1rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="margin-right: 1rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Empower Kibuye. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">&times;</span>
+            <h2 style="text-align: center; color: #2c5530; margin-bottom: 2rem;">Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isAdmin"> Login as Admin
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Don't have an account? <a href="#" id="switchToSignup" style="color: #4a7c59;">Sign up here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close" id="closeSignup">&times;</span>
+            <h2 style="text-align: center; color: #2c5530; margin-bottom: 2rem;">Sign Up</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="signupPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Already have an account? <a href="#" id="switchToLogin" style="color: #4a7c59;">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Add Beneficiary Modal -->
+    <div class="modal" id="beneficiaryModal">
+        <div class="modal-content">
+            <span class="close" id="closeBeneficiary">&times;</span>
+            <h2 style="text-align: center; color: #2c5530; margin-bottom: 2rem;">Add Beneficiary</h2>
+            <form id="beneficiaryForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="beneficiaryName" required>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="beneficiaryAge" min="1" max="100" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="beneficiaryGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="beneficiaryPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="beneficiaryLocation" required>
+                </div>
+                <div class="form-group">
+                    <label>Support Needed</label>
+                    <select id="beneficiarySupportType" required>
+                        <option value="">Select Support Type</option>
+                        <option value="health">Health Insurance</option>
+                        <option value="education">Education Support</option>
+                        <option value="skills">Skills Training</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Additional Information</label>
+                    <textarea id="beneficiaryNotes" rows="3" placeholder="Any additional information..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Add Beneficiary</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let isAdmin = false;
+        const API_BASE = '/api';
+
+        // Utility functions
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            const container = document.querySelector('.container');
+            if (container) {
+                container.insertBefore(alertDiv, container.firstChild);
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-RW', {
+                style: 'currency',
+                currency: 'RWF',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-GB', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // API functions
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                showAlert('Something went wrong. Please try again.', 'error');
+                throw error;
+            }
+        }
+
+        // Authentication functions
+        async function login(email, password, adminLogin = false) {
+            try {
+                const response = await apiCall('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        isAdmin: adminLogin
+                    })
+                });
+
+                if (response.success) {
+                    currentUser = response.user;
+                    isAdmin = response.user.isAdmin;
+                    updateUI();
+                    hideModal('loginModal');
+                    showAlert(`Welcome back, ${currentUser.name}!`);
+                    
+                    if (isAdmin) {
+                        showAdminDashboard();
+                    } else {
+                        showUserDashboard();
+                    }
+                } else {
+                    showAlert(response.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showAlert('Login failed. Please try again.', 'error');
+            }
+        }
+
+        async function signup(userData) {
+            try {
+                const response = await apiCall('/auth/signup', {
+                    method: 'POST',
+                    body: JSON.stringify(userData)
+                });
+
+                if (response.success) {
+                    currentUser = response.user;
+                    updateUI();
+                    hideModal('signupModal');
+                    showAlert(`Welcome, ${currentUser.name}! Your account has been created.`);
+                    showUserDashboard();
+                } else {
+                    showAlert(response.message || 'Signup failed', 'error');
+                }
+            } catch (error) {
+                showAlert('Signup failed. Please try again.', 'error');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            isAdmin = false;
+            updateUI();
+            showMainContent();
+            showAlert('You have been logged out successfully.');
+        }
+
+        // UI update functions
+        function updateUI() {
+            const authButtons = document.querySelectorAll('#loginBtn, #signupBtn');
+            const userButtons = document.querySelectorAll('#dashboardBtn, #logoutBtn');
+
+            if (currentUser) {
+                authButtons.forEach(btn => btn.classList.add('hidden'));
+                userButtons.forEach(btn => btn.classList.remove('hidden'));
+            } else {
+                authButtons.forEach(btn => btn.classList.remove('hidden'));
+                userButtons.forEach(btn => btn.classList.add('hidden'));
+            }
+        }
+
+        function showMainContent() {
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none';
+        }
+
+        function showUserDashboard() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            loadUserData();
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'block';
+            loadAdminData();
+        }
+
+        // Data loading functions
+        async function loadUserData() {
+            if (!currentUser) return;
+
+            try {
+                // Load donation history
+                const donations = await apiCall(`/donations/user/${currentUser.id}`);
+                displayDonationHistory(donations.data || []);
+
+                // Load impact summary
+                const impact = await apiCall(`/impact/user/${currentUser.id}`);
+                displayImpactSummary(impact.data || {});
+            } catch (error) {
+                console.error('Failed to load user data:', error);
+            }
+        }
+
+        async function loadAdminData() {
+            try {
+                // Load all donations
+                const donations = await apiCall('/donations/all');
+                displayAdminDonations(donations.data || []);
+
+                // Load beneficiaries
+                const beneficiaries = await apiCall('/beneficiaries/all');
+                displayBeneficiaries(beneficiaries.data || []);
+                updateBeneficiarySelect(beneficiaries.data || []);
+
+                // Load fund summary
+                const funds = await apiCall('/funds/summary');
+                displayFundSummary(funds.data || {});
+            } catch (error) {
+                console.error('Failed to load admin data:', error);
+            }
+        }
+
+        function displayDonationHistory(donations) {
+            const historyDiv = document.getElementById('donationHistory');
+            
+            if (donations.length === 0) {
+                historyDiv.innerHTML = '<p>No donations yet. Make your first donation to get started!</p>';
+                return;
+            }
+
+            const historyHTML = donations.map(donation => `
+                <div style="border-left: 4px solid #4a7c59; padding-left: 1rem; margin-bottom: 1rem;">
+                    <div style="font-weight: bold; color: #2c5530;">${formatCurrency(donation.amount)}</div>
+                    <div style="color: #666; font-size: 0.9rem;">${donation.purpose} • ${formatDate(donation.created_at)}</div>
+                    <div style="color: #4a7c59; font-size: 0.8rem; text-transform: uppercase;">${donation.status}</div>
+                </div>
+            `).join('');
+
+            historyDiv.innerHTML = historyHTML;
+        }
+
+        function displayImpactSummary(impact) {
+            const impactDiv = document.getElementById('impactSummary');
+            
+            if (!impact.totalDonated) {
+                impactDiv.innerHTML = `
+                    <div style="text-align: center; color: #999;">
+                        <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Your impact summary will appear here after your first donation.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            impactDiv.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #2c5530; margin-bottom: 0.5rem;">
+                        ${formatCurrency(impact.totalDonated)}
+                    </div>
+                    <div style="color: #666; margin-bottom: 1.5rem;">Total Contributed</div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+                        <div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #4a7c59;">${impact.beneficiariesHelped || 0}</div>
+                            <div style="font-size: 0.8rem; color: #666;">Lives Impacted</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #4a7c59;">${impact.donationCount || 0}</div>
+                            <div style="font-size: 0.8rem; color: #666;">Donations Made</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayAdminDonations(donations) {
+            const tbody = document.getElementById('adminDonationsList');
+            
+            if (donations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #999;">No donations yet</td></tr>';
+                return;
+            }
+
+            const donationsHTML = donations.map(donation => `
+                <tr>
+                    <td>${donation.donor_name}</td>
+                    <td>${formatCurrency(donation.amount)}</td>
+                    <td style="text-transform: capitalize;">${donation.purpose}</td>
+                    <td>${formatDate(donation.created_at)}</td>
+                    <td>
+                        <span style="padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8rem; text-transform: uppercase; 
+                               background: ${donation.status === 'allocated' ? '#d4edda' : '#fff3cd'}; 
+                               color: ${donation.status === 'allocated' ? '#155724' : '#856404'};">
+                            ${donation.status}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+
+            tbody.innerHTML = donationsHTML;
+        }
+
+        function displayBeneficiaries(beneficiaries) {
+            const tbody = document.getElementById('beneficiariesList');
+            
+            if (beneficiaries.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No beneficiaries registered yet</td></tr>';
+                return;
+            }
+
+            const beneficiariesHTML = beneficiaries.map(beneficiary => `
+                <tr>
+                    <td>${beneficiary.name}</td>
+                    <td style="text-transform: capitalize;">${beneficiary.support_type}</td>
+                    <td>
+                        <span style="padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8rem; text-transform: uppercase;
+                               background: ${beneficiary.status === 'active' ? '#d4edda' : '#f8d7da'};
+                               color: ${beneficiary.status === 'active' ? '#155724' : '#721c24'};">
+                            ${beneficiary.status}
+                        </span>
+                    </td>
+                    <td>${formatCurrency(beneficiary.support_received || 0)}</td>
+                </tr>
+            `).join('');
+
+            tbody.innerHTML = beneficiariesHTML;
+        }
+
+        function updateBeneficiarySelect(beneficiaries) {
+            const select = document.getElementById('beneficiarySelect');
+            select.innerHTML = '<option value="">Select Beneficiary</option>';
+            
+            beneficiaries.forEach(beneficiary => {
+                const option = document.createElement('option');
+                option.value = beneficiary.id;
+                option.textContent = `${beneficiary.name} (${beneficiary.support_type})`;
+                select.appendChild(option);
+            });
+        }
+
+        function displayFundSummary(funds) {
+            document.getElementById('availableFunds').textContent = 
+                new Intl.NumberFormat('en-RW').format(funds.available || 0);
+        }
+
+        function showPaymentStatus(message, type) {
+            const paymentStatus = document.getElementById('paymentStatus');
+            paymentStatus.textContent = message;
+            paymentStatus.className = `payment-status ${type}`;
+            paymentStatus.classList.remove('hidden');
+            
+            // Auto-hide success/error messages after 5 seconds
+            if (type !== 'processing') {
+                setTimeout(() => {
+                    paymentStatus.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            hamburger.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Modal event listeners
+            document.getElementById('loginBtn').addEventListener('click', () => showModal('loginModal'));
+            document.getElementById('signupBtn').addEventListener('click', () => showModal('signupModal'));
+            document.getElementById('closeLogin').addEventListener('click', () => hideModal('loginModal'));
+            document.getElementById('closeSignup').addEventListener('click', () => hideModal('signupModal'));
+            document.getElementById('closeBeneficiary').addEventListener('click', () => hideModal('beneficiaryModal'));
+            
+            // Switch between login and signup
+            document.getElementById('switchToSignup').addEventListener('click', (e) => {
+                e.preventDefault();
+                hideModal('loginModal');
+                showModal('signupModal');
+            });
+            
+            document.getElementById('switchToLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                hideModal('signupModal');
+                showModal('loginModal');
+            });
+
+            // Dashboard and logout buttons
+            document.getElementById('dashboardBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isAdmin) {
+                    showAdminDashboard();
+                } else {
+                    showUserDashboard();
+                }
+            });
+            
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
+            });
+
+            // Donate buttons
+            const donateButtons = document.querySelectorAll('#donateNowBtn, #joinUsBtn, #footerDonateBtn');
+            donateButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (currentUser) {
+                        showUserDashboard();
+                    } else {
+                        showModal('loginModal');
+                    }
+                });
+            });
+
+            // Admin buttons
+            document.getElementById('addBeneficiaryBtn').addEventListener('click', () => showModal('beneficiaryModal'));
+
+            // Payment method change handler
+            document.getElementById('paymentMethod').addEventListener('change', function() {
+                const paymentMethod = this.value;
+                const momoDetails = document.getElementById('momoDetails');
+                const cardDetails = document.getElementById('cardDetails');
+                const bankDetails = document.getElementById('bankDetails');
+
+                // Hide all payment details
+                momoDetails.classList.add('hidden');
+                cardDetails.classList.add('hidden');
+                bankDetails.classList.add('hidden');
+
+                // Show relevant payment details
+                if (paymentMethod === 'mobile_money') {
+                    momoDetails.classList.remove('hidden');
+                    momoDetails.classList.add('show');
+                } else if (paymentMethod === 'credit_card') {
+                    cardDetails.classList.remove('hidden');
+                    cardDetails.classList.add('show');
+                } else if (paymentMethod === 'bank_transfer') {
+                    bankDetails.classList.remove('hidden');
+                    bankDetails.classList.add('show');
+                }
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+
+            // Phone number formatting for MoMo
+            document.getElementById('momoPhone').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^0-9+]/g, '');
+                if (value.startsWith('07') || value.startsWith('08')) {
+                    value = '+250' + value;
+                }
+                e.target.value = value;
+            });
+
+            // Form submissions
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const adminLogin = document.getElementById('isAdmin').checked;
+                
+                await login(email, password, adminLogin);
+            });
+
+            document.getElementById('signupForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (password !== confirmPassword) {
+                    showAlert('Passwords do not match', 'error');
+                    return;
+                }
+
+                const userData = {
+                    name: document.getElementById('signupName').value,
+                    email: document.getElementById('signupEmail').value,
+                    phone: document.getElementById('signupPhone').value,
+                    password: password
+                };
+
+                await signup(userData);
+            });
+
+            document.getElementById('donationForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const donateButton = document.getElementById('donateButton');
+                const donateButtonText = document.getElementById('donateButtonText');
+                const paymentStatus = document.getElementById('paymentStatus');
+                
+                // Get form data
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const amount = parseInt(document.getElementById('donationAmount').value);
+                const purpose = document.getElementById('donationPurpose').value;
+
+                // Validate payment details
+                let paymentDetails = {};
+                let validationError = null;
+
+                if (paymentMethod === 'mobile_money') {
+                    const phoneNumber = document.getElementById('momoPhone').value;
+                    if (!phoneNumber || phoneNumber.length < 10) {
+                        validationError = 'Please enter a valid phone number for mobile money payment';
+                    } else {
+                        paymentDetails.phoneNumber = phoneNumber;
+                    }
+                } else if (paymentMethod === 'credit_card') {
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const cardMonth = document.getElementById('cardMonth').value;
+                    const cardYear = document.getElementById('cardYear').value;
+                    const cardCvc = document.getElementById('cardCvc').value;
+                    const cardName = document.getElementById('cardName').value;
+
+                    if (!cardNumber || cardNumber.length < 13) {
+                        validationError = 'Please enter a valid card number';
+                    } else if (!cardMonth || !cardYear) {
+                        validationError = 'Please enter card expiry date';
+                    } else if (!cardCvc || cardCvc.length < 3) {
+                        validationError = 'Please enter card CVC';
+                    } else if (!cardName) {
+                        validationError = 'Please enter cardholder name';
+                    } else {
+                        paymentDetails = {
+                            cardNumber: cardNumber,
+                            expMonth: cardMonth,
+                            expYear: cardYear,
+                            cvc: cardCvc,
+                            name: cardName
+                        };
+                    }
+                }
+
+                if (validationError) {
+                    showPaymentStatus(validationError, 'error');
+                    return;
+                }
+
+                // Prepare donation data
+                const donationData = {
+                    purpose: purpose,
+                    amount: amount,
+                    paymentMethod: paymentMethod,
+                    paymentDetails: paymentDetails,
+                    userId: currentUser.id
+                };
+
+                // Show processing state
+                donateButton.disabled = true;
+                donateButton.classList.add('processing');
+                donateButtonText.innerHTML = '<div class="spinner"></div>Processing Payment...';
+                
+                showPaymentStatus('Processing your payment, please wait...', 'processing');
+
+                try {
+                    const response = await apiCall('/donations/create', {
+                        method: 'POST',
+                        body: JSON.stringify(donationData)
+                    });
+
+                    if (response.success) {
+                        showPaymentStatus(`🎉 ${response.message}! Transaction ID: ${response.donation.transactionId}`, 'success');
+                        document.getElementById('donationForm').reset();
+                        
+                        // Hide payment details
+                        document.querySelectorAll('.payment-details').forEach(detail => {
+                            detail.classList.add('hidden');
+                        });
+                        
+                        // Refresh user data after successful donation
+                        setTimeout(() => {
+                            loadUserData();
+                        }, 2000);
+                    } else {
+                        showPaymentStatus(`❌ ${response.message}`, 'error');
+                    }
+                } catch (error) {
+                    showPaymentStatus('❌ Payment failed. Please try again or contact support.', 'error');
+                } finally {
+                    // Reset button state
+                    donateButton.disabled = false;
+                    donateButton.classList.remove('processing');
+                    donateButtonText.innerHTML = 'Donate Now';
+                }
+            });
+
+            document.getElementById('beneficiaryForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const beneficiaryData = {
+                    name: document.getElementById('beneficiaryName').value,
+                    age: parseInt(document.getElementById('beneficiaryAge').value),
+                    gender: document.getElementById('beneficiaryGender').value,
+                    phone: document.getElementById('beneficiaryPhone').value,
+                    location: document.getElementById('beneficiaryLocation').value,
+                    supportType: document.getElementById('beneficiarySupportType').value,
+                    notes: document.getElementById('beneficiaryNotes').value
+                };
+
+                try {
+                    const response = await apiCall('/beneficiaries/create', {
+                        method: 'POST',
+                        body: JSON.stringify(beneficiaryData)
+                    });
+
+                    if (response.success) {
+                        showAlert('Beneficiary added successfully!');
+                        document.getElementById('beneficiaryForm').reset();
+                        hideModal('beneficiaryModal');
+                        loadAdminData(); // Refresh the data
+                    }
+                } catch (error) {
+                    showAlert('Failed to add beneficiary. Please try again.', 'error');
+                }
+            });
+
+            document.getElementById('allocationForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const allocationData = {
+                    beneficiaryId: document.getElementById('beneficiarySelect').value,
+                    amount: parseInt(document.getElementById('allocationAmount').value),
+                    supportType: document.getElementById('supportType').value
+                };
+
+                try {
+                    const response = await apiCall('/funds/allocate', {
+                        method: 'POST',
+                        body: JSON.stringify(allocationData)
+                    });
+
+                    if (response.success) {
+                        showAlert(`Successfully allocated ${formatCurrency(allocationData.amount)} to beneficiary!`);
+                        document.getElementById('allocationForm').reset();
+                        loadAdminData(); // Refresh the data
+                    }
+                } catch (error) {
+                    showAlert('Allocation failed. Please try again.', 'error');
+                }
+            });
+
+            // Amount button clicks
+            const amountButtons = document.querySelectorAll('.amount-btn');
+            amountButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    amountButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('donationAmount').value = btn.dataset.amount;
+                });
+            });
+
+            // Custom amount input
+            document.getElementById('donationAmount').addEventListener('input', () => {
+                amountButtons.forEach(btn => btn.classList.remove('active'));
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+
+            // Initialize UI
+            updateUI();
+        });
+
+        // Initialize the application
+        showMainContent();
+    </script>
+</body>
+</html>
