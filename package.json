@@ -1,5 +1,5 @@
 {
-  "name": "empower-kibuye",
+  "name": "empower_kibuye",
   "version": "1.0.0",
   "description": "A Digital Aid Platform for Health, Education, and Skills Development in Kibuye, Rwanda",
   "main": "server.js",
@@ -42,10 +42,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/empower-kibuye.git"
+    "url": "https://github.com/mikarurangwa/empower_kibuye.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/empower-kibuye/issues"
+    "url": "https://github.com/mikarurangwa/empower_kibuye/issues"
   },
-  "homepage": "https://github.com/yourusername/empower-kibuye#readme"
+  "homepage": "https://github.com/mikarurangwa/empower_kibuye#readme"
 }
