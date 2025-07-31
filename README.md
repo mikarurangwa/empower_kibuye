@@ -68,7 +68,7 @@ empower-kibuye/
 
 ## Default Admin Account
 
-- **Email:** admin@empowerkirubuye.org
+- **Email:** admin@empowerkibuye.org
 - **Password:** admin123
 
 ⚠️ **Important:** Change the admin password immediately after first login!
@@ -139,23 +139,14 @@ The SQLite database is automatically created when you first run the server. No a
 - 🔒 CORS configuration
 - 🎫 Session management
 
-## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Support
 
 For support and questions:
-- Email: info@empowerkirubuye.org
-- Phone: +250 123 456 789
+- Email: rurangwamika98@gmail.com
+- Phone: +250 786 130 393
 
 ## Deployment
 
@@ -194,14 +185,10 @@ Check the console output for detailed error messages and debugging information.
 ## Roadmap
 
 ### Planned Features
-- 📧 Email notifications for donations and allocations
 - 💳 Integration with mobile money payments (MTN MoMo, Airtel Money)
 - 📊 Advanced analytics and reporting
 - 📱 Mobile app version
-- 🌍 Multi-language support (Kinyarwanda, French)
-- 📤 Data export functionality
 - 🔄 Automated recurring donations
-- 📸 Photo uploads for beneficiaries and projects
 
 ### Future Enhancements
 - Integration with government health insurance systems
