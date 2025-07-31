@@ -86,7 +86,7 @@ function initDatabase() {
     `);
 
     // Create default admin user if it doesn't exist
-    const adminEmail = 'admin@empowerkirubuye.org';
+    const adminEmail = 'admin@empowerkibuye.org';
     const adminPassword = 'admin123'; // Change this in production!
     
     db.get('SELECT id FROM users WHERE email = ? AND is_admin = 1', [adminEmail], (err, row) => {
@@ -885,7 +885,7 @@ app.listen(PORT, () => {
     console.log('📊 Dashboard: http://localhost:' + PORT);
     console.log('🏥 Database: empower_kibuye.db');
     console.log('\n📋 Default Admin Credentials:');
-    console.log('Email: admin@empowerkirubuye.org');
+    console.log('Email: admin@empowerkibuye.org');
     console.log('Password: admin123');
     console.log('\n⚠️  Please change the admin password after first login!\n');
     
