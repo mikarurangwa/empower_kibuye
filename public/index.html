@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empower Kibuye - Digital Aid Platform</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -673,99 +672,10 @@
             border: 1px solid #c3e6cb;
         }
 
-        /* Navigation Improvements */
-        .nav-menu.logged-in {
-            display: flex !important;
-        }
-
-        .main-sections {
-            display: block;
-        }
-
-        .main-sections.hidden-sections {
-            display: none;
-        }
-
-        /* Export and Filter Styles */
-        .export-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .filter-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .export-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-export {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-export:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        .btn-export:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .filter-summary {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        /* Back to sections button */
-        .back-to-sections {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: #4a7c59;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 999;
-            display: none;
-        }
-
-        .back-to-sections:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .back-to-sections.show {
-            display: block;
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -778,12 +688,12 @@
                 Empower Kibuye
             </div>
             
-            <nav class="nav-menu" id="navMenu">
-                <li><a href="#" id="homeLink">Home</a></li>
-                <li><a href="#" id="aboutLink">About</a></li>
-                <li><a href="#" id="missionLink">Mission</a></li>
-                <li><a href="#" id="problemLink">Problem</a></li>
-                <li><a href="#" id="impactLink">Impact</a></li>
+            <nav class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#mission">Mission</a></li>
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#impact">Impact</a></li>
             </nav>
 
             <div class="auth-buttons">
@@ -801,140 +711,138 @@
         </div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="#" class="mobile-home-link">Home</a>
-            <a href="#" class="mobile-about-link">About</a>
-            <a href="#" class="mobile-mission-link">Mission</a>
-            <a href="#" class="mobile-problem-link">Problem</a>
-            <a href="#" class="mobile-impact-link">Impact</a>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#mission">Mission</a>
+            <a href="#problem">Problem</a>
+            <a href="#impact">Impact</a>
         </div>
     </header>
 
     <!-- Main Content -->
     <main id="mainContent">
-        <div class="main-sections" id="mainSections">
-            <!-- Hero Section -->
-            <section class="hero" id="home">
-                <div class="hero-content">
-                    <h1>Empower Kibuye</h1>
-                    <p>A Digital Aid Platform transforming lives through health, education, and skills development in rural Rwanda</p>
-                    <div class="cta-buttons">
-                        <a href="#" class="btn btn-primary btn-large" id="donateNowBtn">Donate Now</a>
-                        <a href="#about" class="btn btn-secondary btn-large">Learn More</a>
-                    </div>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Empower Kibuye</h1>
+                <p>A Digital Aid Platform transforming lives through health, education, and skills development in rural Rwanda</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary btn-large" id="donateNowBtn">Donate Now</a>
+                    <a href="#about" class="btn btn-secondary btn-large">Learn More</a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- About Section -->
-            <section class="about" id="about">
-                <div class="container">
-                    <h2 class="section-title">About Our Mission</h2>
-                    <div class="about-grid">
-                        <div class="about-text">
-                            <p>Empower Kibuye is dedicated to breaking the cycle of poverty in rural Rwanda by providing essential support in three critical areas: healthcare, education, and skills development.</p>
-                            
-                            <p>Our mission is to establish a sustainable digital platform that connects generous donors with vulnerable families and children in Kibuye, ensuring every contribution creates lasting impact and transforms lives.</p>
-                            
-                            <p>Through transparent fund management and direct community engagement, we empower individuals to build better futures while providing donors with clear visibility into how their contributions make a difference.</p>
-                        </div>
-                        <div class="about-image">
-                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%234a7c59' width='400' height='300' rx='15'/><circle fill='%236fb577' cx='100' cy='100' r='30'/><circle fill='%2382cc84' cx='300' cy='80' r='25'/><circle fill='%2395d98b' cx='320' cy='200' r='35'/><rect fill='%23fff' x='50' y='180' width='300' height='80' rx='10'/><text x='200' y='215' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='14' font-weight='bold'>Community Support</text><text x='200' y='235' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='12'>Building Better Futures</text></svg>" alt="Community Support" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Mission Section -->
-            <section class="mission" id="mission">
-                <div class="container">
-                    <h2 class="section-title">What Your Donation Serves</h2>
-                    <div class="mission-grid">
-                        <div class="mission-card">
-                            <i class="fas fa-heartbeat"></i>
-                            <h3>Health Insurance</h3>
-                            <p>Providing essential health coverage to vulnerable families, ensuring access to medical care when they need it most. Your donation helps cover insurance premiums and medical expenses.</p>
-                        </div>
-                        <div class="mission-card">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>Education Support</h3>
-                            <p>Covering school fees for children who would otherwise be unable to attend school due to financial constraints. Education is the foundation for breaking the cycle of poverty.</p>
-                        </div>
-                        <div class="mission-card">
-                            <i class="fas fa-tools"></i>
-                            <h3>Skills Development</h3>
-                            <p>Offering vocational training and skill-building programs that equip adults with marketable skills, creating pathways to sustainable employment and economic independence.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Problem Statement Section -->
-            <section class="problem" id="problem">
-                <div class="container">
-                    <h2 class="section-title">The Challenge We're Addressing</h2>
-                    <div class="problem-content">
-                        <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #555; line-height: 1.8;">
-                            In rural communities like Kibuye, Rwanda, families face significant barriers to accessing basic healthcare and education. Limited financial resources mean that many children cannot attend school, and families go without essential health coverage.
-                        </p>
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <h2 class="section-title">About Our Mission</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>Empower Kibuye is dedicated to breaking the cycle of poverty in rural Rwanda by providing essential support in three critical areas: healthcare, education, and skills development.</p>
                         
-                        <p style="font-size: 1.1rem; color: #666; line-height: 1.7;">
-                            <strong>The Reality:</strong> According to WHO reports, a significant percentage of the population lives below the poverty line, making health insurance and school fees unaffordable. Adults lack opportunities for skills development that could improve their employment prospects, creating a perpetual cycle of poverty that affects entire communities.
-                        </p>
+                        <p>Our mission is to establish a sustainable digital platform that connects generous donors with vulnerable families and children in Kibuye, ensuring every contribution creates lasting impact and transforms lives.</p>
+                        
+                        <p>Through transparent fund management and direct community engagement, we empower individuals to build better futures while providing donors with clear visibility into how their contributions make a difference.</p>
                     </div>
-                    
-                    <div class="stats">
-                        <div class="stat-card">
-                            <span class="stat-number">60%</span>
-                            <span class="stat-label">Population below poverty line</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number">40%</span>
-                            <span class="stat-label">Children without health insurance</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number">25%</span>
-                            <span class="stat-label">School dropout rate due to fees</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number">15%</span>
-                            <span class="stat-label">Access to vocational training</span>
-                        </div>
+                    <div class="about-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%234a7c59' width='400' height='300' rx='15'/><circle fill='%236fb577' cx='100' cy='100' r='30'/><circle fill='%2382cc84' cx='300' cy='80' r='25'/><circle fill='%2395d98b' cx='320' cy='200' r='35'/><rect fill='%23fff' x='50' y='180' width='300' height='80' rx='10'/><text x='200' y='215' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='14' font-weight='bold'>Community Support</text><text x='200' y='235' text-anchor='middle' fill='%232c5530' font-family='Arial' font-size='12'>Building Better Futures</text></svg>" alt="Community Support" />
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Impact Section -->
-            <section class="impact" id="impact">
-                <div class="container">
-                    <h2 class="section-title" style="color: white;">Why Donate to Empower Kibuye?</h2>
-                    <div class="impact-grid">
-                        <div class="impact-item">
-                            <i class="fas fa-eye"></i>
-                            <h3>Complete Transparency</h3>
-                            <p>Track exactly how your donation is used with our transparent allocation system and regular impact reports.</p>
-                        </div>
-                        <div class="impact-item">
-                            <i class="fas fa-users"></i>
-                            <h3>Direct Impact</h3>
-                            <p>100% of your donation goes directly to beneficiaries - covering health insurance, school fees, and training programs.</p>
-                        </div>
-                        <div class="impact-item">
-                            <i class="fas fa-chart-line"></i>
-                            <h3>Measurable Results</h3>
-                            <p>See the tangible difference your contribution makes through our comprehensive tracking and reporting system.</p>
-                        </div>
-                        <div class="impact-item">
-                            <i class="fas fa-handshake"></i>
-                            <h3>Community Partnership</h3>
-                            <p>We work directly with local community leaders and organizations to ensure sustainable, long-term impact.</p>
-                        </div>
+        <!-- Mission Section -->
+        <section class="mission" id="mission">
+            <div class="container">
+                <h2 class="section-title">What Your Donation Serves</h2>
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Health Insurance</h3>
+                        <p>Providing essential health coverage to vulnerable families, ensuring access to medical care when they need it most. Your donation helps cover insurance premiums and medical expenses.</p>
                     </div>
-                    
-                    <div style="margin-top: 3rem;">
-                        <a href="#" class="btn btn-primary btn-large" id="joinUsBtn">Join Our Mission Today</a>
+                    <div class="mission-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Education Support</h3>
+                        <p>Covering school fees for children who would otherwise be unable to attend school due to financial constraints. Education is the foundation for breaking the cycle of poverty.</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-tools"></i>
+                        <h3>Skills Development</h3>
+                        <p>Offering vocational training and skill-building programs that equip adults with marketable skills, creating pathways to sustainable employment and economic independence.</p>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
+        <!-- Problem Statement Section -->
+        <section class="problem" id="problem">
+            <div class="container">
+                <h2 class="section-title">The Challenge We're Addressing</h2>
+                <div class="problem-content">
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #555; line-height: 1.8;">
+                        In rural communities like Kibuye, Rwanda, families face significant barriers to accessing basic healthcare and education. Limited financial resources mean that many children cannot attend school, and families go without essential health coverage.
+                    </p>
+                    
+                    <p style="font-size: 1.1rem; color: #666; line-height: 1.7;">
+                        <strong>The Reality:</strong> According to WHO reports, a significant percentage of the population lives below the poverty line, making health insurance and school fees unaffordable. Adults lack opportunities for skills development that could improve their employment prospects, creating a perpetual cycle of poverty that affects entire communities.
+                    </p>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <span class="stat-number">60%</span>
+                        <span class="stat-label">Population below poverty line</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">40%</span>
+                        <span class="stat-label">Children without health insurance</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">25%</span>
+                        <span class="stat-label">School dropout rate due to fees</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">15%</span>
+                        <span class="stat-label">Access to vocational training</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="impact" id="impact">
+            <div class="container">
+                <h2 class="section-title" style="color: white;">Why Donate to Empower Kibuye?</h2>
+                <div class="impact-grid">
+                    <div class="impact-item">
+                        <i class="fas fa-eye"></i>
+                        <h3>Complete Transparency</h3>
+                        <p>Track exactly how your donation is used with our transparent allocation system and regular impact reports.</p>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-users"></i>
+                        <h3>Direct Impact</h3>
+                        <p>100% of your donation goes directly to beneficiaries - covering health insurance, school fees, and training programs.</p>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Measurable Results</h3>
+                        <p>See the tangible difference your contribution makes through our comprehensive tracking and reporting system.</p>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Community Partnership</h3>
+                        <p>We work directly with local community leaders and organizations to ensure sustainable, long-term impact.</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <a href="#" class="btn btn-primary btn-large" id="joinUsBtn">Join Our Mission Today</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Dashboard Section -->
@@ -1079,11 +987,6 @@
         </div>
     </section>
 
-    <!-- Back to Sections Button -->
-    <button class="back-to-sections" id="backToSectionsBtn">
-        <i class="fas fa-arrow-left"></i> Back to Main
-    </button>
-
     <!-- Admin Dashboard -->
     <section class="dashboard admin-section" id="adminDashboard">
         <div class="container">
@@ -1094,119 +997,6 @@
                     <button class="btn btn-primary" id="addBeneficiaryBtn">
                         <i class="fas fa-user-plus"></i> Add Beneficiary
                     </button>
-                </div>
-            </div>
-
-            <!-- Export Section -->
-            <div class="export-section">
-                <h3><i class="fas fa-file-export"></i> Export Data</h3>
-                
-                <!-- Donations Export -->
-                <div style="margin-bottom: 2rem;">
-                    <h4>📊 Export Donations</h4>
-                    <div class="filter-row">
-                        <div class="form-group">
-                            <label>From Date</label>
-                            <input type="date" id="donationFromDate">
-                        </div>
-                        <div class="form-group">
-                            <label>To Date</label>
-                            <input type="date" id="donationToDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Purpose</label>
-                            <select id="donationPurposeFilter">
-                                <option value="">All Purposes</option>
-                                <option value="health">Health Insurance</option>
-                                <option value="education">Education Support</option>
-                                <option value="skills">Skills Training</option>
-                                <option value="general">General Fund</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="donationStatusFilter">
-                                <option value="">All Status</option>
-                                <option value="completed">Completed</option>
-                                <option value="pending">Pending</option>
-                                <option value="failed">Failed</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Min Amount (RWF)</label>
-                            <input type="number" id="donationMinAmount" placeholder="0">
-                        </div>
-                        <div class="form-group">
-                            <label>Max Amount (RWF)</label>
-                            <input type="number" id="donationMaxAmount" placeholder="No limit">
-                        </div>
-                    </div>
-                    <div class="filter-summary" id="donationFilterSummary">
-                        No filters applied - All donations will be exported
-                    </div>
-                    <div class="export-buttons">
-                        <button class="btn-export" id="exportDonationsBtn">
-                            <i class="fas fa-file-excel"></i> Export Donations to Excel
-                        </button>
-                        <button class="btn btn-secondary" id="clearDonationFiltersBtn">
-                            <i class="fas fa-times"></i> Clear Filters
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Beneficiaries Export -->
-                <div>
-                    <h4>👥 Export Beneficiaries</h4>
-                    <div class="filter-row">
-                        <div class="form-group">
-                            <label>Support Type</label>
-                            <select id="beneficiarySupportFilter">
-                                <option value="">All Support Types</option>
-                                <option value="health">Health Insurance</option>
-                                <option value="education">Education Support</option>
-                                <option value="skills">Skills Training</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="beneficiaryStatusFilter">
-                                <option value="">All Status</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select id="beneficiaryGenderFilter">
-                                <option value="">All Genders</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Min Age</label>
-                            <input type="number" id="beneficiaryMinAge" placeholder="0">
-                        </div>
-                        <div class="form-group">
-                            <label>Max Age</label>
-                            <input type="number" id="beneficiaryMaxAge" placeholder="No limit">
-                        </div>
-                        <div class="form-group">
-                            <label>Location</label>
-                            <input type="text" id="beneficiaryLocationFilter" placeholder="Filter by location">
-                        </div>
-                    </div>
-                    <div class="filter-summary" id="beneficiaryFilterSummary">
-                        No filters applied - All beneficiaries will be exported
-                    </div>
-                    <div class="export-buttons">
-                        <button class="btn-export" id="exportBeneficiariesBtn">
-                            <i class="fas fa-file-excel"></i> Export Beneficiaries to Excel
-                        </button>
-                        <button class="btn btn-secondary" id="clearBeneficiaryFiltersBtn">
-                            <i class="fas fa-times"></i> Clear Filters
-                        </button>
-                    </div>
                 </div>
             </div>
             
