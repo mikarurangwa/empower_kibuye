@@ -233,8 +233,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Support
 
 For support and questions:
-- Email: info@empowerkirubuye.org
-- Phone: +250 123 456 789
+- Email: rurangwamika98@gmail.com
+- Phone: +250 786 130 393
 
 ## Deployment
 
